@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Dictionaries : MonoBehaviour
 {
@@ -25,5 +26,55 @@ public class Dictionaries : MonoBehaviour
     private void Start()
     {
         print(characterDict.Count); // 3
+
+        // Print out value of given key, but only if it exists
+        if(characterDict.TryGetValue("Edwin", out int value)){
+            print(value);
+        }
+
+        // Print each key value pair
+        foreach(KeyValuePair<string,int> row in characterDict)
+        {
+            print(row);
+        }
+
+        // Print each key /value
+        foreach (KeyValuePair<string, int> row in characterDict)
+        {
+            print(row.Key); //row.Value
+        }
+
+        // Removing key value pair by key
+        characterDict.Remove("Minsc");
+
+        // Check if specified key/value exists
+        if (characterDict.ContainsKey("Edwin")) //ContainsValue(...)
+            print("Edwin found!");
+
+        // Copy dictionary to another dictionary
+        Dictionary<string, int> secondDictionary = new Dictionary<string, int>(characterDict);
+                     
+
+
+        // Clear dictionary
+        characterDict.Clear();
+        print(characterDict.Count); //0
+        print($"secondDictionary has {secondDictionary.Count} values");
+
+
+        // Convert array to dictionary with LINQ
+        string[] simpsons = new string[] { "Homer", "Bart", "Marge" };
+        Dictionary<string,string>dictSimpsons = simpsons.ToDictionary(item => item, item => "Simpson");
+
+        //var dictSimpsons = simpsons.ToDictionary(item => item, item => "Simpson");
+
+        foreach ( var name in dictSimpsons)
+        {
+            print(name);
+            //print(name.Key);
+            //print(name.Value);
+        }
+
+
     }
 }
